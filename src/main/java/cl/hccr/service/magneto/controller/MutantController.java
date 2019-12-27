@@ -13,27 +13,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/")
 public class MutantController {
-    /*
+
     private MutantCheckerService mutantCheckerService;
 
 
     public MutantController(MutantCheckerService mutantCheckerService) {
         this.mutantCheckerService = mutantCheckerService;
     }
-    */
+
 
     @PostMapping("mutant")
     public ResponseEntity postMutant(@RequestBody MutantRequest mutantRequest){
-
-        /*
 
         if(mutantCheckerService.isMutant(mutantRequest))
             return ResponseEntity.ok().build();
         else
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
-            */
-
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 }

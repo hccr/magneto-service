@@ -2,23 +2,29 @@ package cl.hccr.service.magneto;
 
 import cl.hccr.service.magneto.controller.MutantController;
 import cl.hccr.service.magneto.domain.MutantRequest;
+import cl.hccr.service.magneto.service.MutantCheckerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(MutantController.class)
 class MutantControllerTest {
 
-
-
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    private MutantCheckerService mutantCheckerService;
+
 
     private final static String URL = "/mutant";
 
@@ -49,6 +55,8 @@ class MutantControllerTest {
     @Test
     void postNoMutant_ShouldResponseForbidden() throws Exception {
 
+        given(mutantCheckerService.isMutant(any(MutantRequest.class))).willReturn(false);
+
         MutantRequest mutantRequest = new MutantRequest(NOT_MUTANT_DNA);
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -64,6 +72,8 @@ class MutantControllerTest {
 
     @Test
     void postMutant_ShouldResponseOK() throws Exception {
+
+        given(mutantCheckerService.isMutant(any(MutantRequest.class))).willReturn(true);
 
         MutantRequest mutantRequest = new MutantRequest(MUTANT_DNA);
         ObjectMapper objectMapper = new ObjectMapper();
