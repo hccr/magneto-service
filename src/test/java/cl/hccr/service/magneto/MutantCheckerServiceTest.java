@@ -16,9 +16,9 @@ class MutantCheckerServiceTest {
 
 
     private SimpleMutantCheckerService mutantCheckerService;
-    private final String[] DNA = {"AAAAAA","BBBBBB","CCCCCC","DDDDDD","EEEEEE","FFFFFF"};
-
-    private final String[] FORWARD_DIAGONAL_RESULT = {
+    private final static String[] DNA = {"AAAAAA","BBBBBB","CCCCCC","DDDDDD","EEEEEE","FFFFFF"};
+    private final static String PATRON = "AAAA";
+    private final static String[] FORWARD_DIAGONAL_RESULT = {
             "DCBA",
             "EDCBA",
             "FEDCBA",
@@ -26,12 +26,28 @@ class MutantCheckerServiceTest {
             "FEDC"
     };
 
-    private final String[] BACKWARD_DIAGONAL_RESULT = {
+    private final static String[] BACKWARD_DIAGONAL_RESULT = {
             "CDEF",
             "BCDEF",
             "ABCDEF",
             "ABCDE",
             "ABCD"
+    };
+    private final static String[] VERTICAL_RESULT = {
+            "ABCDEF",
+            "ABCDEF",
+            "ABCDEF",
+            "ABCDEF",
+            "ABCDEF",
+            "ABCDEF"};
+
+    private final static String[][] MATRIX_RESULT = {
+            {"A","A","A","A","A","A"},
+            {"B","B","B","B","B","B"},
+            {"C","C","C","C","C","C"},
+            {"D","D","D","D","D","D"},
+            {"E","E","E","E","E","E"},
+            {"F","F","F","F","F","F"}
     };
 
     @BeforeEach
@@ -41,62 +57,25 @@ class MutantCheckerServiceTest {
 
     @Test
     void getMatrix(){
-        String[][] result = {
-                {"A","A","A","A","A","A"},
-                {"B","B","B","B","B","B"},
-                {"C","C","C","C","C","C"},
-                {"D","D","D","D","D","D"},
-                {"E","E","E","E","E","E"},
-                {"F","F","F","F","F","F"}
-        };
-        assertThat(mutantCheckerService.generateMatrix(DNA)).isEqualTo(result);
+        assertThat(mutantCheckerService.generateMatrix(DNA)).isEqualTo(MATRIX_RESULT);
     }
-
-
 
     @Test
     void getVerticalStringArray(){
-        String[] result = {
-                "ABCDEF",
-                "ABCDEF",
-                "ABCDEF",
-                "ABCDEF",
-                "ABCDEF",
-                "ABCDEF"};
-        assertThat(mutantCheckerService.getVerticalStringArray(DNA)).isEqualTo(result);
+        assertThat(mutantCheckerService.getVerticalStringArray(DNA)).isEqualTo(VERTICAL_RESULT);
     }
 
     @Test
     void getBackwardDiagonalArray(){
-        int patronLength = 4;
-
-
-        assertThat(mutantCheckerService.getBackwardDiagonalArray(DNA, patronLength)).isEqualTo(BACKWARD_DIAGONAL_RESULT);
-
-    }
-
-
-
-    /*
-
-
-
-     */
-
-/*
-
-    @Test
-    void passMatrix_ReturnHorizontalOrderedString(){
-        String result = "AAABBBCCC";
-        assertThat(mutantCheckerService.getHorizontalOrderString(MATRIX)).isEqualTo(result);
+        assertThat(mutantCheckerService.getBackwardDiagonalArray(DNA, PATRON.length())).isEqualTo(BACKWARD_DIAGONAL_RESULT);
     }
 
     @Test
-    void passMatrix_ReturnVerticalOrderedString(){
-        String result = "ABCABCABC";
-        assertThat(mutantCheckerService.getVerticlOrderString(MATRIX)).isEqualTo(result);
+    void getForwardDiagonalArray(){
+        assertThat(mutantCheckerService.getForwardDiagonalArray(DNA, PATRON.length())).isEqualTo(FORWARD_DIAGONAL_RESULT);
     }
 
-    */
+
+
 }
 

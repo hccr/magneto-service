@@ -69,12 +69,50 @@ public class SimpleMutantCheckerService implements MutantCheckerService {
             arrayList.add(sb.toString());
             sb.delete(0,sb.length());
 
-
             if(rowOffset > 0){
                 rowOffset--;
             }else{
                 columnOffset++;
             }
+        }
+
+        String[] itemsArray = new String[arrayList.size()];
+        return arrayList.toArray(itemsArray);
+    }
+
+
+    public String[] getForwardDiagonalArray(String[] dna, int patternLength) {
+
+        String[][] matrix = generateMatrix(dna);
+
+        int rowOffset = matrix.length - patternLength + 1;
+        int columnOffset = 0;
+        int columnLimit = matrix.length - patternLength + 1;
+
+
+
+        StringBuilder sb = new StringBuilder();
+        List<String> arrayList = new ArrayList<>();
+
+        while(rowOffset < matrix.length && columnOffset < columnLimit ){
+            int i = rowOffset;
+            int j = columnOffset;
+
+            while (i>=0 && j<matrix.length){
+                sb.append(matrix[i][j]);
+                i--;
+                j++;
+            }
+
+            arrayList.add(sb.toString());
+            sb.delete(0,sb.length());
+
+            if(rowOffset < matrix.length-1){
+                rowOffset++;
+            }else{
+                columnOffset++;
+            }
+
         }
 
         String[] itemsArray = new String[arrayList.size()];
