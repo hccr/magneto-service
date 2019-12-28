@@ -14,8 +14,6 @@ public class RegexMutantCheckerServiceImpl implements MutantCheckerService {
     private final static String PATRON_G = "GGGG";
     private final static String PATRON_T = "TTTT";
 
-    private final static String PATTERN = "[A]{4}|[C]{4}|[G]{4}|[T]{4}\b";
-
 
 
     @Override
@@ -49,12 +47,51 @@ public class RegexMutantCheckerServiceImpl implements MutantCheckerService {
 
 
         //Pattern.compile(PATTERN).
-       // vertical.
+        // vertical.
         return false;
     }
 
+    /*
+    //Genera una matriz a partir del array de ADN
+    @Override
+    public String[][] generateMatrix(String[] dna) {
+        String[][] matrix = new String[dna.length][dna.length];
+        for(int i = 0; i<dna.length; i++){
+            matrix[i] = dna[i].split("");
+        }
+        return matrix;
+    }
 
+    @Override
+    public String getHorizontalOrderString(String[][] matrix) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < matrix.length;i++){
+            for(int j = 0; j < matrix.length;j++){
+                sb.append(matrix[i][j]);
+            }
+        }
+        return sb.toString();
+    }
 
+    @Override
+    public String getVerticlOrderString(String[][] matrix) {
+        StringBuilder sb = new StringBuilder();
+        for(int j = 0; j < matrix.length;j++){
+            for (int i = 0; i < matrix.length;i++){
+                sb.append(matrix[i][j]);
+            }
+        }
+        return sb.toString();
+    }
 
+    @Override
+    public String getTopLeftToBottomRightOrderString(String[][] matrix) {
+        return null;
+    }
 
+    @Override
+    public String getTopRightToBottomLeftOrderString(String[][] matrix) {
+        return null;
+    }
+    */
 }
