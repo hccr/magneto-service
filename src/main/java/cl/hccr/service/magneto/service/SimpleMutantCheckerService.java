@@ -8,13 +8,85 @@ import java.util.List;
 
 @Service
 public class SimpleMutantCheckerService implements MutantCheckerService {
-    private final int PATTERN_LENGTH = 4;
+    private final static String PATRON_A = "AAAA";
+    private final static String PATRON_C = "CCCC";
+    private final static String PATRON_G = "GGGG";
+    private final static String PATRON_T = "TTTT";
+
 
 
     @Override
     public boolean isMutant(MutantRequest mutantRequest) {
-        return false;
+
+        String[][] matrix = generateMatrix(mutantRequest.getDna());
+
+        String[] horizontalArray = mutantRequest.getDna();
+        String[] verticalArray = getVerticalStringArray(matrix);
+        String[] forwardDiagonalArray = getForwardDiagonalArray(matrix, PATRON_A.length());
+        String[] backwardDiagonalArray = getBackwardDiagonalArray(matrix, PATRON_A.length());
+
+        int cuentaPatrones =
+                 checkPattern(horizontalArray) +
+                 checkPattern(verticalArray) +
+                 checkPattern(forwardDiagonalArray) +
+                 checkPattern(backwardDiagonalArray) ;
+
+        return cuentaPatrones > 1;
     }
+
+
+
+    private int checkPattern(String[] dnaArray){
+        int cuentaPatrones = 0;
+        for (String dnaPart : dnaArray) {
+            if(dnaPart.length() >=  PATRON_A.length() * 2 ){
+                //Puede contener multiples patrones por linea
+
+                int indexOf;
+                int offset = 0;
+                while((indexOf = dnaPart.indexOf(PATRON_A, offset))>-1){
+                    cuentaPatrones++;
+                    offset = indexOf + PATRON_A.length();
+                }
+
+
+                offset = 0;
+                while((indexOf = dnaPart.indexOf(PATRON_C, offset))>-1){
+                    cuentaPatrones++;
+                    offset = indexOf + PATRON_C.length();
+                }
+
+                offset = 0;
+                while((indexOf = dnaPart.indexOf(PATRON_G, offset))>-1){
+                    cuentaPatrones++;
+                    offset = indexOf + PATRON_G.length();
+                }
+
+                offset = 0;
+                while((indexOf = dnaPart.indexOf(PATRON_T, offset))>-1){
+                    cuentaPatrones++;
+                    offset = indexOf + PATRON_T.length();
+                }
+
+            }else{
+                if(dnaPart.contains(PATRON_A)){
+                    cuentaPatrones++;
+                }
+                if(dnaPart.contains(PATRON_C)){
+                    cuentaPatrones++;
+                }
+                if(dnaPart.contains(PATRON_G)){
+                    cuentaPatrones++;
+                }
+                if(dnaPart.contains(PATRON_T)){
+                    cuentaPatrones++;
+                }
+            }
+        }
+        return cuentaPatrones;
+    }
+
+
 
     public String[][] generateMatrix(String[] dna) {
         String[][] matrix = new String[dna.length][dna.length];
@@ -24,14 +96,8 @@ public class SimpleMutantCheckerService implements MutantCheckerService {
         return matrix;
     }
 
-
-
-
-    public String[] getVerticalStringArray(String[] dna) {
-        String[][] matrix = generateMatrix(dna);
+    public String[] getVerticalStringArray(String[][] matrix) {
         String[] result = new String[matrix.length];
-
-
         StringBuilder sb = new StringBuilder();
         for(int j = 0; j < matrix.length;j++){
             for (int i = 0; i < matrix.length;i++){
@@ -45,9 +111,8 @@ public class SimpleMutantCheckerService implements MutantCheckerService {
 
     }
 
-    public String[] getBackwardDiagonalArray(String[] dna, int patternLength) {
+    public String[] getBackwardDiagonalArray(String[][] matrix, int patternLength) {
 
-        String[][] matrix = generateMatrix(dna);
 
         int rowOffset = matrix.length-patternLength;
         int columnLimit = matrix.length-patternLength + 1;
@@ -81,9 +146,8 @@ public class SimpleMutantCheckerService implements MutantCheckerService {
     }
 
 
-    public String[] getForwardDiagonalArray(String[] dna, int patternLength) {
+    public String[] getForwardDiagonalArray(String[][] matrix, int patternLength) {
 
-        String[][] matrix = generateMatrix(dna);
 
         int rowOffset = matrix.length - patternLength + 1;
         int columnOffset = 0;

@@ -1,6 +1,7 @@
 package cl.hccr.service.magneto;
 
 
+import cl.hccr.service.magneto.domain.MutantRequest;
 import cl.hccr.service.magneto.service.SimpleMutantCheckerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,6 +51,39 @@ class MutantCheckerServiceTest {
             {"F","F","F","F","F","F"}
     };
 
+    private final static String [] MUTANT_DNA_1 = {
+            "ATGCGA",
+            "CAGTGC",
+            "TTATGT",
+            "AGAAGG",
+            "CCCCTA",
+            "TCACTG"
+    };
+
+    private final static String [] MUTANT_DNA_2 = {
+            "AAAATGAAAA",
+            "TATCGATAAT",
+            "TGATCCGTAA",
+            "TGCTACGGTG",
+            "TGCATAAGTT",
+            "CATTCACCTT",
+            "GAATATGCTA",
+            "ACTGAAGTCC",
+            "GATGTATCTC",
+            "TATCGAATGT",
+    };
+    private final static String [] NO_MUTANT_DNA = {
+            "ATGCGA",
+            "CAGTGC",
+            "TTATTT",
+            "AGACGG",
+            "GCGTCA",
+            "TTACTG"
+    };
+
+
+
+
     @BeforeEach
     void setMockOutput() {
        mutantCheckerService = new SimpleMutantCheckerService();
@@ -62,20 +96,29 @@ class MutantCheckerServiceTest {
 
     @Test
     void getVerticalStringArray(){
-        assertThat(mutantCheckerService.getVerticalStringArray(DNA)).isEqualTo(VERTICAL_RESULT);
+        assertThat(mutantCheckerService.getVerticalStringArray(MATRIX_RESULT)).isEqualTo(VERTICAL_RESULT);
     }
 
     @Test
     void getBackwardDiagonalArray(){
-        assertThat(mutantCheckerService.getBackwardDiagonalArray(DNA, PATRON.length())).isEqualTo(BACKWARD_DIAGONAL_RESULT);
+        assertThat(mutantCheckerService.getBackwardDiagonalArray(MATRIX_RESULT, PATRON.length())).isEqualTo(BACKWARD_DIAGONAL_RESULT);
     }
 
     @Test
     void getForwardDiagonalArray(){
-        assertThat(mutantCheckerService.getForwardDiagonalArray(DNA, PATRON.length())).isEqualTo(FORWARD_DIAGONAL_RESULT);
+        assertThat(mutantCheckerService.getForwardDiagonalArray(MATRIX_RESULT, PATRON.length())).isEqualTo(FORWARD_DIAGONAL_RESULT);
     }
 
 
+    @Test
+    void isMutant_ResultTrue(){
+        assertThat(mutantCheckerService.isMutant(new MutantRequest(MUTANT_DNA_1))).isEqualTo(true);
+        assertThat(mutantCheckerService.isMutant(new MutantRequest(MUTANT_DNA_2))).isEqualTo(true);
+    }
+    @Test
+    void isMutant_ResultFalse(){
+        assertThat(mutantCheckerService.isMutant(new MutantRequest(NO_MUTANT_DNA))).isEqualTo(false);
+    }
 
 }
 
