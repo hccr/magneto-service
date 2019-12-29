@@ -2,7 +2,7 @@ package cl.hccr.service.magneto.controller;
 
 import cl.hccr.service.magneto.domain.MutantRequest;
 import cl.hccr.service.magneto.service.MutantCheckerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import cl.hccr.service.magneto.service.QueueService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,20 +15,25 @@ import org.springframework.web.bind.annotation.RestController;
 public class MutantController {
 
     private MutantCheckerService mutantCheckerService;
+    private QueueService queueService;
 
-
-    public MutantController(MutantCheckerService mutantCheckerService) {
+    public MutantController(MutantCheckerService mutantCheckerService, QueueService queueService) {
         this.mutantCheckerService = mutantCheckerService;
+        this.queueService = queueService;
     }
 
 
     @PostMapping("mutant")
     public ResponseEntity postMutant(@RequestBody MutantRequest mutantRequest){
 
-        if(mutantCheckerService.isMutant(mutantRequest))
+        if(mutantCheckerService.isMutant(mutantRequest)){
+            mutantRequest.setMutant(true);
+            queueService.queueMutantRequest(mutantRequest);
             return ResponseEntity.ok().build();
-        else
+        }else {
+            mutantRequest.setMutant(false);
+            queueService.queueMutantRequest(mutantRequest);
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-
+        }
     }
 }
