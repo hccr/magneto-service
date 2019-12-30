@@ -1,4 +1,4 @@
-package cl.hccr.service.magneto.Config;
+package cl.hccr.service.magneto.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

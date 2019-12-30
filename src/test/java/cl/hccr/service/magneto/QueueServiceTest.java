@@ -11,11 +11,10 @@ import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.services.sqs.model.SendMessageRequest;
 import software.amazon.awssdk.services.sqs.model.SendMessageResponse;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-public class QueueServiceTest {
+ class QueueServiceTest {
 
     @MockBean
     private SqsClient sqsClient;

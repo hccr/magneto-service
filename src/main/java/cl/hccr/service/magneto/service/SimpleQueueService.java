@@ -9,6 +9,7 @@ import software.amazon.awssdk.services.sqs.model.SendMessageRequest;
 
 @Service
 public class SimpleQueueService implements QueueService {
+
     private SqsClient sqsClient;
     private ObjectMapper objectMapper;
     private final static String QUEUE_URL = "https://sqs.us-east-1.amazonaws.com/054232979367/mercado-libre-test";

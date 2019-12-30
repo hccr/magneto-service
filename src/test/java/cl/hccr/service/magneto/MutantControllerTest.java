@@ -3,16 +3,19 @@ package cl.hccr.service.magneto;
 import cl.hccr.service.magneto.controller.MutantController;
 import cl.hccr.service.magneto.domain.MutantRequest;
 import cl.hccr.service.magneto.service.MutantCheckerService;
+import cl.hccr.service.magneto.service.QueueService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -24,6 +27,9 @@ class MutantControllerTest {
 
     @MockBean
     private MutantCheckerService mutantCheckerService;
+
+    @MockBean
+    private QueueService queueService;
 
 
     private final static String URL = "/mutant";
@@ -49,6 +55,7 @@ class MutantControllerTest {
 
     @Test
     void postMutantRequestWithoutBody_ShouldResponseNotFound() throws Exception {
+
         mockMvc.perform(MockMvcRequestBuilders.post(URL))
                 .andExpect(status().isBadRequest());
     }

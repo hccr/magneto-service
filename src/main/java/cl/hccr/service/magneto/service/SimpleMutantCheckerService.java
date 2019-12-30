@@ -1,10 +1,14 @@
 package cl.hccr.service.magneto.service;
 
+import cl.hccr.service.magneto.domain.DnaSizeException;
 import cl.hccr.service.magneto.domain.MutantRequest;
+import cl.hccr.service.magneto.domain.NotAllowedCharException;
+import cl.hccr.service.magneto.domain.NotNxNDnaFormatException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 public class SimpleMutantCheckerService implements MutantCheckerService {
@@ -14,9 +18,17 @@ public class SimpleMutantCheckerService implements MutantCheckerService {
     private final static String PATRON_T = "TTTT";
 
 
+    private final Pattern pattern = Pattern.compile("[ACGT]*");
+    // in case you would like to ignore case sensitivity,
+    // you could use this statement:
+    // Pattern pattern = Pattern.compile("\\s+", Pattern.CASE_INSENSITIVE);
+
+
+
 
     @Override
     public boolean isMutant(MutantRequest mutantRequest) {
+
 
         String[][] matrix = generateMatrix(mutantRequest.getDna());
 
@@ -89,9 +101,22 @@ public class SimpleMutantCheckerService implements MutantCheckerService {
 
 
     public String[][] generateMatrix(String[] dna) {
+
+        if(dna.length>64 || dna.length<4){
+            throw new DnaSizeException();
+        }
+
         String[][] matrix = new String[dna.length][dna.length];
         for(int i = 0; i<dna.length; i++){
+            if(!pattern.matcher(dna[i]).matches()){
+                throw new NotAllowedCharException();
+            }
+
             matrix[i] = dna[i].split("");
+
+            if(matrix[i].length!=dna.length){
+                throw new NotNxNDnaFormatException();
+            }
         }
         return matrix;
     }
