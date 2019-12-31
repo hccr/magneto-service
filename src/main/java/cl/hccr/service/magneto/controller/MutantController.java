@@ -26,6 +26,8 @@ public class MutantController {
     @PostMapping("mutant")
     public ResponseEntity postMutant(@RequestBody MutantRequest mutantRequest){
 
+        //Verifica si es mutante, si lo es envía respuesta 200 y envia mensaje a QueueService
+        //Si no es mutante responde con 403 y envia mensaje a QueueService
         if(mutantCheckerService.isMutant(mutantRequest)){
             mutantRequest.setMutant(true);
             queueService.queueMutantRequest(mutantRequest);

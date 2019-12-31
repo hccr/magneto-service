@@ -20,10 +20,25 @@ public class SimpleMutantCheckerService implements MutantCheckerService {
 
     private final Pattern pattern = Pattern.compile("[ACGT]*");
 
+
+    //Implementacion del método isMutant
+    /*
+        Para implementar el metodo isMutant utilizaré el método indexOf de la clase String para la
+        busqueda del patrón.
+
+        Para poder buscar en todas las direcciones deberé obtener arreglos de String que representen cada una
+        de esas direcciones.
+        Un arreglo horizontal (Tal cual como viene en la peticion
+        Un arreglo vertical
+        Un arreglo diagonal hacia adelante /
+        Un arreglo diagonal hacia atras \
+
+     */
     @Override
     public boolean isMutant(MutantRequest mutantRequest) {
 
-
+        //Primero obtenemos una matriz NxN desde el arreglo de Strings dna
+        //Esta sera la base para obtener los arreglos
         String[][] matrix = generateMatrix(mutantRequest.getDna());
 
         String[] horizontalArray = mutantRequest.getDna();
@@ -41,7 +56,11 @@ public class SimpleMutantCheckerService implements MutantCheckerService {
     }
 
 
-
+/*
+      Este método verifica si existe algun patron en un arreglo, independiente de si es horizontal, vertical o diagonales
+      Utiliza el metodo String.indexOf() para encontrar la ubicación de cada uno de los patrones
+      Un String puede contener más de un patron, eso sucede cuando el largo del String es mayor o igual que 2 veces el largo del patron
+ */
     private int checkPattern(String[] dnaArray){
         int cuentaPatrones = 0;
         for (String dnaPart : dnaArray) {
@@ -93,6 +112,11 @@ public class SimpleMutantCheckerService implements MutantCheckerService {
     }
 
 
+    /*
+
+    Este metodo genera la matriz base para poder generar los demas arreglos.
+    Tambien se utiliza para lanzar las Excepciones en caso de que no cumpla con los supuestos.
+     */
 
     public String[][] generateMatrix(String[] dna) {
 
@@ -115,6 +139,7 @@ public class SimpleMutantCheckerService implements MutantCheckerService {
         return matrix;
     }
 
+    //Obtiene el arreglo vertical recorriendo la matriz verticalmente
     public String[] getVerticalStringArray(String[][] matrix) {
         String[] result = new String[matrix.length];
         StringBuilder sb = new StringBuilder();
@@ -130,6 +155,20 @@ public class SimpleMutantCheckerService implements MutantCheckerService {
 
     }
 
+    /*
+    Obtiene el arreglo diagonal hacia atras recorriendo la matriz de manera diagonal considerando el largo del patron
+    supongamos la siguiente matriz y un patron de largo 3, por ejemplo AAA
+     A A A A
+     B B B B
+     C C C C
+     D D D D
+
+     Este metodo nos devolvera
+     ["BCD",
+     "ABCD"
+     "ABD"]
+
+    */
     public String[] getBackwardDiagonalArray(String[][] matrix, int patternLength) {
 
 
@@ -164,6 +203,20 @@ public class SimpleMutantCheckerService implements MutantCheckerService {
         return arrayList.toArray(itemsArray);
     }
 
+     /*
+    Obtiene el arreglo diagonal hacia adelante recorriendo la matriz de manera diagonal considerando el largo del patron
+    supongamos la siguiente matriz y un patron de largo 3, por ejemplo AAA
+     A A A A
+     B B B B
+     C C C C
+     D D D D
+
+     Este metodo nos devolvera
+     ["CBA",
+     "DCBA"
+     "DCB"]
+
+    */
 
     public String[] getForwardDiagonalArray(String[][] matrix, int patternLength) {
 
