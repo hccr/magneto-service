@@ -19,12 +19,6 @@ public class SimpleMutantCheckerService implements MutantCheckerService {
 
 
     private final Pattern pattern = Pattern.compile("[ACGT]*");
-    // in case you would like to ignore case sensitivity,
-    // you could use this statement:
-    // Pattern pattern = Pattern.compile("\\s+", Pattern.CASE_INSENSITIVE);
-
-
-
 
     @Override
     public boolean isMutant(MutantRequest mutantRequest) {
