@@ -29,7 +29,7 @@ Este método Post recibe dentro del cuerpo de la petición un objeto JSON con un
 El método devolverá un código de respuesta `HTTP 200-OK` si es que el dna corresponde a un mutante. En caso de que el dna enviado sea de un humano, el API responderá con el código `HTTP 403-Forbidden`. Debido a que no se especificó dentro de los requerimientos, el método no devuelve contenido al ser llamado.
 #### Ejemplo
 ```
-curl -i -X POST http://magnetolb-104314295.us-east-1.elb.amazonaws.com/mutant \
+curl -i -X POST http://YOUR-ENDPOINT/mutant \
   -H 'Content-Type: application/json' \
   -d '{
         "dna":["ATGCGA",
@@ -46,3 +46,21 @@ El metodo tiene detección de excepciones las cuales pueden ocurrir por los sigu
 * Contiene letras no permitidas
 * No es una matríz NxN
 En todos estos casos se responde con el código `HTTP 404-Bad Request`con el mensaje correspondiente.
+
+
+### `/stats`
+```
+GET → /stats
+```
+Este método Get entrega las estadísticas de consulta del servicio en formato JSON. Los campos entregados son los siguientes:
+* `count_mutant_dna (int)`: Indica el número de adn mutantes verificados.
+* `count_human_dna (int)`: Indica el número de adn humanos verificados.
+* `ratio (double)`: Indica la relación mutante/humano.
+#### Respuesta
+El método devolverá un código de respuesta `HTTP 200-OK` con un objeto JSON dentro del cuerpo de la respuesta. `{"count_mutant_dna":40, "count_human_dna":100: "ratio":0.4}`
+
+#### Ejemplo
+```
+curl -X GET http://YOUR-ENDPOINT/stats
+```
+
