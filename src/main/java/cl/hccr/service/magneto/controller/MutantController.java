@@ -28,7 +28,7 @@ public class MutantController {
 
         //Verifica si es mutante, si lo es envía respuesta 200 y envia mensaje a QueueService
         //Si no es mutante responde con 403 y envia mensaje a QueueService
-        if(mutantCheckerService.isMutant(mutantRequest)){
+        if(mutantCheckerService.isMutant(mutantRequest.getDna())){
             mutantRequest.setMutant(true);
             queueService.queueMutantRequest(mutantRequest);
             return ResponseEntity.ok().build();

@@ -111,12 +111,12 @@ class MutantCheckerServiceTest {
 
     @Test
     void isMutant_ResultTrue(){
-        assertThat(mutantCheckerService.isMutant(new MutantRequest(MUTANT_DNA_1))).isEqualTo(true);
-        assertThat(mutantCheckerService.isMutant(new MutantRequest(MUTANT_DNA_2))).isEqualTo(true);
+        assertThat(mutantCheckerService.isMutant(MUTANT_DNA_1)).isEqualTo(true);
+        assertThat(mutantCheckerService.isMutant(MUTANT_DNA_2)).isEqualTo(true);
     }
     @Test
     void isMutant_ResultFalse(){
-        assertThat(mutantCheckerService.isMutant(new MutantRequest(NO_MUTANT_DNA))).isEqualTo(false);
+        assertThat(mutantCheckerService.isMutant(NO_MUTANT_DNA)).isEqualTo(false);
     }
 
 }

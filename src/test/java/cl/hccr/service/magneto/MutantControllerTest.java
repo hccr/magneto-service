@@ -62,7 +62,7 @@ class MutantControllerTest {
     @Test
     void postNoMutant_ShouldResponseForbidden() throws Exception {
 
-        given(mutantCheckerService.isMutant(any(MutantRequest.class))).willReturn(false);
+        given(mutantCheckerService.isMutant(any(String[].class))).willReturn(false);
 
         MutantRequest mutantRequest = new MutantRequest(NOT_MUTANT_DNA);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -80,7 +80,7 @@ class MutantControllerTest {
     @Test
     void postMutant_ShouldResponseOK() throws Exception {
 
-        given(mutantCheckerService.isMutant(any(MutantRequest.class))).willReturn(true);
+        given(mutantCheckerService.isMutant(any(String[].class))).willReturn(true);
 
         MutantRequest mutantRequest = new MutantRequest(MUTANT_DNA);
         ObjectMapper objectMapper = new ObjectMapper();

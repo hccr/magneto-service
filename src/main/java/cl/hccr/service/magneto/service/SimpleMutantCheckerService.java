@@ -35,13 +35,13 @@ public class SimpleMutantCheckerService implements MutantCheckerService {
 
      */
     @Override
-    public boolean isMutant(MutantRequest mutantRequest) {
+    public boolean isMutant(String[] dna) {
 
         //Primero obtenemos una matriz NxN desde el arreglo de Strings dna
         //Esta sera la base para obtener los arreglos
-        String[][] matrix = generateMatrix(mutantRequest.getDna());
+        String[][] matrix = generateMatrix(dna);
 
-        String[] horizontalArray = mutantRequest.getDna();
+        String[] horizontalArray = dna;
         String[] verticalArray = getVerticalStringArray(matrix);
         String[] forwardDiagonalArray = getForwardDiagonalArray(matrix, PATRON_A.length());
         String[] backwardDiagonalArray = getBackwardDiagonalArray(matrix, PATRON_A.length());
